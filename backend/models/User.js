@@ -12,10 +12,8 @@
 //       validate: [validator.isEmail, "Please provide a valid email"],
 //     },
 //     businessProfileId: {
-//       id: {
-//         type: Schema.Types.ObjectId,
-//         ref: "BusinessProfile",
-//       },
+//        type: Schema.Types.ObjectId,
+//        ref: "BusinessProfile",
 //     },
 //     password: {
 //       type: String,
