@@ -1,4 +1,4 @@
-// import { mongoose, Schema } from "mongoose";
+// import { Schema, model } from "mongoose";
 // import validator from "validator";
 
 // const userSchema = new Schema(
@@ -9,11 +9,16 @@
 //       unique: true,
 //       trim: true,
 //       lowercase: true,
-//       validate: [validator.isEmail, "Please provide a valid email"],
+//       validate: {
+//         validator: function (value) {
+//           return validator.isEmail(value);
+//         },
+//         message: "Please provide a valid email",
+//       },
 //     },
 //     businessProfileId: {
-//        type: Schema.Types.ObjectId,
-//        ref: "BusinessProfile",
+//       type: Schema.Types.ObjectId,
+//       ref: "BusinessProfile",
 //     },
 //     password: {
 //       type: String,
@@ -43,6 +48,6 @@
 //   { timestamps: true, versionKey: false }
 // );
 
-// const User = new mongoose.model("User", userSchema);
+// const User = model("User", userSchema);
 
 // export default User;

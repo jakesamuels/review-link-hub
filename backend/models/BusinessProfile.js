@@ -1,6 +1,6 @@
-// import mongoose from "mongoose";
+// import {Schema, model} from "mongoose";
 
-// const businessProfileSchema = new mongoose.Schema(
+// const businessProfileSchema = new Schema(
 //   {
 //     name: {
 //       type: String,
@@ -37,7 +37,7 @@
 //   { timestamps: true, versionKey: false }
 // );
 
-// const BusinessProfile = new mongoose.model(
+// const BusinessProfile = model(
 //   "BusinessProfile",
 //   businessProfileSchema
 // );
