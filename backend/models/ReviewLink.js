@@ -16,6 +16,9 @@ const reviewLinkSchema = new Schema(
       type: String,
       required: true,
     },
+    siteLogo: {
+      type: String,
+    },
     businessProfileId: {
       type: Schema.Types.ObjectId,
       ref: "BusinessProfile",
