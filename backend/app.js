@@ -4,6 +4,7 @@ import cors from "cors";
 import AppError from "./utils/appError.js";
 import globalErrorHandler from "./controllers/errorController.js";
 import authRouter from "./routes/authRoutes.js";
+import businessProfileRouter from "./routes/businessProfileRoutes.js";
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 express.urlencoded({ extended: true });
 
 app.use("/api/auth", authRouter);
+app.use("/api/business-profiles", businessProfileRouter);
 
 app.all("/{*splat}", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server.`, 400));
