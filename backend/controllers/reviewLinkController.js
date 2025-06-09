@@ -3,6 +3,7 @@ import BusinessProfile from "./../models/BusinessProfile.js";
 import catchAsync from "./../utils/catchAsync.js";
 import appError from "./../utils/appError.js";
 import AppError from "./../utils/appError.js";
+import mongoose from "mongoose";
 
 export const addReviewLink = catchAsync(async (req, res, next) => {
   const { id: businessProfileId } = req.params;
@@ -36,6 +37,54 @@ export const addReviewLink = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       reviewLink,
+    },
+  });
+});
+
+export const updateReview = catchAsync(async (req, res, next) => {
+  const { id: reviewLinkId } = req.params;
+  const { url, siteName, siteLogo } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(reviewLinkId)) {
+    return next(new AppError("Invalid review ID", 400));
+  }
+
+  const reviewLink = await ReviewLink.findById(reviewLinkId);
+
+  if (!reviewLink) {
+    return next(new AppError("No review link found", 404));
+  }
+
+  const businessProfile = await BusinessProfile.findById(
+    reviewLink.businessProfileId
+  );
+
+  if (
+    !businessProfile ||
+    businessProfile.ownerId.toString() !== req.user._id.toString()
+  ) {
+    return next(
+      new AppError(
+        "You are not authorised to update review link! Please log in.",
+        403
+      )
+    );
+  }
+
+  const updatedReviewLink = await ReviewLink.findByIdAndUpdate(
+    reviewLinkId,
+    {
+      url,
+      siteName,
+      siteLogo,
+    },
+    { new: true, runValidators: true }
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      reviewLink: updatedReviewLink,
     },
   });
 });
