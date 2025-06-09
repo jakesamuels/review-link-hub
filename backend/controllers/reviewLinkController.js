@@ -92,6 +92,10 @@ export const updateReview = catchAsync(async (req, res, next) => {
 export const deleteReviewLink = catchAsync(async (req, res, next) => {
   const { id: reviewLinkId } = req.params;
 
+  if (!mongoose.Types.ObjectId.isValid(reviewLinkId)) {
+    return next(new AppError("Invalid review ID", 400));
+  }
+
   const reviewLink = await ReviewLink.findById(reviewLinkId);
 
   if (!reviewLink) {
@@ -118,3 +122,32 @@ export const deleteReviewLink = catchAsync(async (req, res, next) => {
 
   res.status(204).send();
 });
+
+export const getReviewLinksByBusinessProfile = catchAsync(
+  async (req, res, next) => {
+    const { id: businessProfileId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(businessProfileId)) {
+      return next(new AppError("Invalid business profile ID", 400));
+    }
+
+    const businessProfileExists = await BusinessProfile.exists({
+      _id: businessProfileId,
+    });
+
+    if (!businessProfileExists) {
+      return next(new AppError("No business profile found with that ID", 404));
+    }
+
+    const reviewLinks = await ReviewLink.find({ businessProfileId }).sort({
+      order: "asc",
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        reviewLinks,
+      },
+    });
+  }
+);
