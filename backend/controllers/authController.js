@@ -2,7 +2,7 @@ import promisify from "util";
 import User from "./../models/User.js";
 import jwt from "jsonwebtoken";
 import catchAsync from "./../utils/catchAsync.js";
-import AppError from "../utils/appError.js";
+import AppError from "./../utils/appError.js";
 
 const signToken = (id) => {
   return jwt.sign(

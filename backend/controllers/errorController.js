@@ -1,5 +1,5 @@
-import { devError } from "../utils/envError.js";
-import AppError from "../utils/appError.js";
+import { devError } from "./../utils/envError.js";
+import AppError from "./../utils/appError.js";
 
 // Cast Error Handler
 const castErrorHandler = (err) => {
