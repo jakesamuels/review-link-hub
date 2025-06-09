@@ -80,20 +80,20 @@ export const getLoggedInUserBusinessProfile = catchAsync(
 );
 
 export const updateBusinessProfile = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
+  const { id: businessId } = req.params;
   const { name, logoUrl, description, industry } = req.body;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!mongoose.Types.ObjectId.isValid(businessId)) {
     return next(new AppError("Invalid profile ID", 400));
   }
 
-  const businessProfile = await BusinessProfile.findById(id);
+  const businessProfile = await BusinessProfile.findById(businessId);
 
   if (!businessProfile) {
     return next(new AppError("No profile found", 404));
   }
 
-  if (businessProfile.ownerId.toString() !== req.user._id.toString()) {
+  if (!businessProfile._id.equals(req.user.businessProfileId)) {
     return next(
       new AppError(
         "You are not authorised to update this profile! Please log in.",
@@ -103,7 +103,7 @@ export const updateBusinessProfile = catchAsync(async (req, res, next) => {
   }
 
   const updatedProfile = await BusinessProfile.findByIdAndUpdate(
-    id,
+    businessId,
     {
       name,
       logoUrl,
