@@ -5,6 +5,10 @@ import {
   getBusinessProfileById,
   updateBusinessProfile,
 } from "./../controllers/businessProfileController.js";
+import {
+  addReviewLink,
+  getReviewLinksByBusinessProfile,
+} from "./../controllers/reviewLinkController.js";
 import { protect } from "./../controllers/authController.js";
 
 const router = express.Router();
@@ -18,5 +22,10 @@ router
   .route("/:id")
   .get(getBusinessProfileById)
   .put(protect, updateBusinessProfile);
+
+router
+  .route("/:businessProfileId/review-links")
+  .post(protect, addReviewLink)
+  .get(getReviewLinksByBusinessProfile);
 
 export default router;
