@@ -65,7 +65,7 @@ export const updateReview = catchAsync(async (req, res, next) => {
   ) {
     return next(
       new AppError(
-        "You are not authorised to update review link! Please log in.",
+        "You are not authorised to update this review link! Please log in.",
         403
       )
     );
@@ -87,4 +87,34 @@ export const updateReview = catchAsync(async (req, res, next) => {
       reviewLink: updatedReviewLink,
     },
   });
+});
+
+export const deleteReviewLink = catchAsync(async (req, res, next) => {
+  const { id: reviewLinkId } = req.params;
+
+  const reviewLink = await ReviewLink.findById(reviewLinkId);
+
+  if (!reviewLink) {
+    return next(new AppError("No review link found", 404));
+  }
+
+  const businessProfile = await BusinessProfile.findById(
+    reviewLink.businessProfileId
+  );
+
+  if (
+    !businessProfile ||
+    businessProfile.ownerId.toString() !== req.user._id.toString()
+  ) {
+    return next(
+      new AppError(
+        "You are not authorised to delete this review link! Please log in.",
+        403
+      )
+    );
+  }
+
+  await ReviewLink.findByIdAndDelete(reviewLinkId);
+
+  res.status(204).send();
 });
