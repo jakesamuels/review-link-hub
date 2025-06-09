@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import validator from "validator";
 
 const reviewLinkSchema = new Schema(
   {
@@ -11,17 +12,21 @@ const reviewLinkSchema = new Schema(
         },
         message: "Please provide a valid URL",
       },
+      trim: true,
     },
     siteName: {
       type: String,
       required: true,
+      trim: true,
     },
     siteLogo: {
       type: String,
+      trim: true,
     },
     businessProfileId: {
       type: Schema.Types.ObjectId,
       ref: "BusinessProfile",
+      required: true,
     },
     order: {
       type: Number,
