@@ -57,3 +57,24 @@ export const getBusinessProfileById = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+export const getLoggedInUserBusinessProfile = catchAsync(
+  async (req, res, next) => {
+    const userId = req.user._id;
+
+    const businessProfile = await BusinessProfile.findOne({
+      ownerId: userId,
+    }).populate("ownerId", "email");
+
+    if (!businessProfile) {
+      return next(new AppError("No profile found", 404));
+    }
+
+    res.status(200).json({
+      message: "success",
+      data: {
+        businessProfile,
+      },
+    });
+  }
+);
