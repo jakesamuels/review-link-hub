@@ -20,6 +20,8 @@ const businessProfileSchema = new Schema(
     ownerId: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true,
+      index: true,
     },
     isActive: {
       type: Boolean,
