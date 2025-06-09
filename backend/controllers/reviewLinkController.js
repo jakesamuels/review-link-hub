@@ -6,7 +6,7 @@ import AppError from "./../utils/appError.js";
 import mongoose from "mongoose";
 
 export const addReviewLink = catchAsync(async (req, res, next) => {
-  const { id: businessProfileId } = req.params;
+  const { businessProfileId } = req.params;
   const { url, siteName, siteLogo } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(businessProfileId)) {
@@ -125,7 +125,7 @@ export const deleteReviewLink = catchAsync(async (req, res, next) => {
 
 export const getReviewLinksByBusinessProfile = catchAsync(
   async (req, res, next) => {
-    const { id: businessProfileId } = req.params;
+    const { businessProfileId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(businessProfileId)) {
       return next(new AppError("Invalid business profile ID", 400));
