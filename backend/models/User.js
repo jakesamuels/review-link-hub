@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import validator from "validator";
+import bcrypt from "bcryptjs";
 
 const userSchema = new Schema(
   {
@@ -22,7 +23,9 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Password must be provided"],
+      required: [true, "Password is required"],
+      minlength: 8,
+      select: false,
     },
     passwordConfirm: {
       type: String,
@@ -47,6 +50,19 @@ const userSchema = new Schema(
   },
   { timestamps: true, versionKey: false }
 );
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  const salt = await bcrypt.genSalt(12);
+  const hash = await bcrypt.hash(this.password, salt);
+  this.password = hash;
+
+  this.passwordChangedAt = Date.now() - 1000;
+
+  this.passwordConfirm = undefined;
+  next();
+});
 
 const User = model("User", userSchema);
 
