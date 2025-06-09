@@ -1,4 +1,4 @@
-import { devError } from "./../utils/envError.js";
+import { devError, prodError } from "./../utils/envError.js";
 import AppError from "./../utils/appError.js";
 
 // Cast Error Handler
