@@ -41,7 +41,7 @@ export const addReviewLink = catchAsync(async (req, res, next) => {
   });
 });
 
-export const updateReview = catchAsync(async (req, res, next) => {
+export const updateReviewLink = catchAsync(async (req, res, next) => {
   const { id: reviewLinkId } = req.params;
   const { url, siteName, siteLogo } = req.body;
 
