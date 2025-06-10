@@ -8,20 +8,20 @@ const AuthNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="login">
       <Stack.Screen
-        name="login"
+        name="Login"
         component={LoginScreen}
         options={{
           headerShown: false,
-          path: "login",
+          path: "Login",
         }}
       />
 
       <Stack.Screen
-        name="register"
+        name="Register"
         component={RegisterScreen}
         options={{
           title: "Register Account",
-          path: "register",
+          path: "Register",
         }}
       />
     </Stack.Navigator>
