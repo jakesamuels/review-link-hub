@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import validator from "validator";
 
 const businessProfileSchema = new Schema(
   {
@@ -16,6 +17,16 @@ const businessProfileSchema = new Schema(
     },
     industry: {
       type: String,
+    },
+    website: {
+      type: String,
+      validate: {
+        validator: function (value) {
+          return validator.isURL(value);
+        },
+        message: "Please provide a valid URL",
+      },
+      trim: true,
     },
     ownerId: {
       type: Schema.Types.ObjectId,
