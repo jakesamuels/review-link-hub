@@ -1,15 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
+import HomeScreen from "../screens/HomeScreen";
 
 const Stack = createStackNavigator();
-
-const HomeScreen = () => {
-  return (
-    <View>
-      <Text>Home</Text>
-    </View>
-  );
-};
 
 const AppNavigator = () => {
   return (

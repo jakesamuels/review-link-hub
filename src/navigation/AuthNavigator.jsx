@@ -12,6 +12,7 @@ const AuthNavigator = () => {
         component={LoginScreen}
         options={{
           headerShown: false,
+          title: "Login",
           path: "Login",
         }}
       />

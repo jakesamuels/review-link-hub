@@ -8,10 +8,12 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import api from "../../utils/api";
-import { setToken } from "../../utils/authStorage";
+import { useAuth } from "../../context/AuthContext";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -42,10 +44,10 @@ const LoginScreen = () => {
       const token = response.data?.token || response.token;
 
       if (token) {
-        await setToken(token);
+        await login(token);
         console.log("Login successful:", response.data);
 
-        navigation.navigate("AppNavigator", { screen: "Home" });
+        // navigation.navigate("AppNavigator", { screen: "Home" });
       } else {
         setErrorMessage(
           "Login completed, but no token received. Please try logging in again."

@@ -1,17 +1,13 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { setToken } from "./../../utils/authStorage";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 import api from "../../utils/api";
+import { useAuth } from "./../../context/AuthContext";
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -50,11 +46,8 @@ const RegisterScreen = () => {
       const token = response.data?.token || response.token;
 
       if (token) {
-        await setToken(token);
+        await login(token);
         console.log("Registration successful:", response.data); // Log actual response for verification
-
-        // Correct navigation to a screen within AppNavigator
-        navigation.navigate("AppNavigator", { screen: "Home" });
       } else {
         // Handle cases where registration is 'successful' but no token is returned (unlikely for auth, but good to guard)
         setErrorMessage(
