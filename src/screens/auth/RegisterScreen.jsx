@@ -23,7 +23,7 @@ const RegisterScreen = () => {
     setErrorMessage("");
 
     if (!email || !password || !passwordConfirm) {
-      setErrorMessage("Plesae fill in all fiends.");
+      setErrorMessage("Please fill in all fiends.");
       setIsLoading(false);
       return;
     }
