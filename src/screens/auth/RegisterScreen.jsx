@@ -19,7 +19,7 @@ const RegisterScreen = () => {
     setErrorMessage("");
 
     if (!email || !password || !passwordConfirm) {
-      setErrorMessage("Please fill in all fiends.");
+      setErrorMessage("Please fill in all fields.");
       setIsLoading(false);
       return;
     }
@@ -56,9 +56,12 @@ const RegisterScreen = () => {
       }
     } catch (error) {
       console.error("Registration error:", error);
-      error.response?.data?.message ||
-        error.message ||
-        "Registration failed. Please try again.";
+
+      setErrorMessage(
+        error.response?.data?.message || // Get the specific error message from your backend (e.g., "Incorrect email or password")
+          error.message || // Fallback to a generic Axios error message (e.g., network issues)
+          "Registration failed. Please try again." // Generic fallback message
+      );
     } finally {
       setIsLoading(false);
     }
@@ -89,6 +92,8 @@ const RegisterScreen = () => {
         value={passwordConfirm}
         secureTextEntry
       />
+
+      {errorMessage && <Text>{errorMessage}</Text>}
 
       <TouchableOpacity onPress={handleRegistration} disabled={isLoading}>
         <Text>Register</Text>

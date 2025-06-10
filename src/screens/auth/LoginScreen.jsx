@@ -24,7 +24,7 @@ const LoginScreen = () => {
     setErrorMessage("");
 
     if (!email || !password) {
-      setErrorMessage("Please fill in all fiends.");
+      setErrorMessage("Please fill in all fields.");
       setIsLoading(false);
       return;
     }
@@ -46,8 +46,6 @@ const LoginScreen = () => {
       if (token) {
         await login(token);
         console.log("Login successful:", response.data);
-
-        // navigation.navigate("AppNavigator", { screen: "Home" });
       } else {
         setErrorMessage(
           "Login completed, but no token received. Please try logging in again."
@@ -55,9 +53,12 @@ const LoginScreen = () => {
       }
     } catch (error) {
       console.error("Login error:", error);
-      error.response?.data?.message ||
-        error.message ||
-        "Login failed. Please try again.";
+
+      setErrorMessage(
+        error.response?.data?.message || // Get the specific error message from your backend (e.g., "Incorrect email or password")
+          error.message || // Fallback to a generic Axios error message (e.g., network issues)
+          "Login failed. Please try again." // Generic fallback message
+      );
     } finally {
       setIsLoading(false);
     }
@@ -80,6 +81,8 @@ const LoginScreen = () => {
         value={password}
         secureTextEntry
       />
+
+      {errorMessage && <Text>{errorMessage}</Text>}
 
       <TouchableOpacity onPress={handleLogin} disabled={isLoading}>
         <Text>Log In</Text>
