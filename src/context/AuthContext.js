@@ -1,3 +1,4 @@
+// context/AuthContext.js
 import { createContext, useState, useEffect, useContext } from "react";
 import { getToken, removeToken, setToken } from "./../utils/authStorage";
 import { View, Text } from "react-native";
@@ -48,7 +49,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setUser, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, setUser, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

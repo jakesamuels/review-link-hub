@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import AuthNavigator from "./src/navigation/AuthNavigator";
 import AppNavigator from "./src/navigation/AppNavigator";
 import { useContext } from "react";

@@ -8,9 +8,11 @@ import {
 } from "react-native";
 import api from "../utils/api";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "./../context/AuthContext";
 
 const CreateProfileScreen = () => {
   const navigation = useNavigation();
+  const { logout } = useAuth();
 
   const [businessName, setBusinessName] = useState("");
   const [description, setDescription] = useState("");
@@ -43,7 +45,7 @@ const CreateProfileScreen = () => {
 
       console.log("Profile creation successful:", response.data);
 
-      navigation.replace("BusinessProfile");
+      navigation.replace("BusinessProfileScreen");
     } catch (error) {
       console.error("Login error:", error);
 
@@ -64,24 +66,24 @@ const CreateProfileScreen = () => {
       <TextInput
         placeholder="Business Name"
         value={businessName}
-        onTextChange={setBusinessName}
+        onChangeText={setBusinessName}
       />
       <TextInput
         placeholder="description (Optional)"
         value={description}
-        onTextChange={setDescription}
+        onChangeText={setDescription}
         multiline
         numberOfLines={4}
       />
       <TextInput
         placeholder="Industry/Category (Optional)"
         value={industry}
-        onTextChange={setIndustry}
+        onChangeText={setIndustry}
       />
       <TextInput
         placeholder="Website (Optional)"
         value={businessWebsite}
-        onTextChange={setBusinessWebsite}
+        onChangeText={setBusinessWebsite}
       />
       {/* UPLOAD LOGO */}
 
@@ -90,6 +92,10 @@ const CreateProfileScreen = () => {
       <View>
         <TouchableOpacity onPress={handleCreateProfile} disabled={isLoading}>
           <Text>Create Profile</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={logout}>
+          <Text>Log Out</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
