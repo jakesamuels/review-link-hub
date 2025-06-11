@@ -6,7 +6,7 @@ import { useAuth } from "./../../context/AuthContext";
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
-  const { login } = useAuth();
+  const { login, setUser } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,15 +43,15 @@ const RegisterScreen = () => {
         passwordConfirm,
       });
 
-      const token = response.data?.token || response.token;
+      const token = response.data?.token;
+      const userFromResponse = response.data?.data.user;
 
-      if (token) {
-        await login(token);
-        console.log("Registration successful:", response.data); // Log actual response for verification
+      if (token && userFromResponse) {
+        await login(token, userFromResponse);
+        console.log("Registration successful:", response.data);
       } else {
-        // Handle cases where registration is 'successful' but no token is returned (unlikely for auth, but good to guard)
         setErrorMessage(
-          "Registration completed, but no token received. Please try logging in."
+          "Registration completed, but no token or user data received. Please try logging in."
         );
       }
     } catch (error) {

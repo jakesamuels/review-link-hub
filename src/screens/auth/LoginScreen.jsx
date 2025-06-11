@@ -12,7 +12,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
-  const { login } = useAuth();
+  const { login, setUser } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,14 +41,16 @@ const LoginScreen = () => {
         password,
       });
 
-      const token = response.data?.token || response.token;
+      const token = response.data?.token;
+      const userFromResponse = response.data?.data.user;
 
-      if (token) {
+      if (token && userFromResponse) {
         await login(token);
+        setUser(userFromResponse);
         console.log("Login successful:", response.data);
       } else {
         setErrorMessage(
-          "Login completed, but no token received. Please try logging in again."
+          "Login completed, but no token or user data received. Please try logging in again."
         );
       }
     } catch (error) {

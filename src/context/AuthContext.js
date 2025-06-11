@@ -1,11 +1,12 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { getToken, removeToken, setToken } from "./../utils/authStorage";
-import { ActivityIndicator, View, StyleSheet, Text } from "react-native";
+import { View, Text } from "react-native";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,13 +27,15 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus();
   }, []);
 
-  const login = async (token) => {
+  const login = async (token, user) => {
     await setToken(token);
+    setUser(user);
     setIsAuthenticated(true);
   };
 
   const logout = async () => {
     await removeToken();
+    setUser(null);
     setIsAuthenticated(false);
   };
 
@@ -45,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
