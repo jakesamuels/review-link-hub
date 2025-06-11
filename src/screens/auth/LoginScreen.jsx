@@ -1,3 +1,4 @@
+// sreens/auth/login.jsx
 import { useState } from "react";
 import {
   View,
@@ -45,8 +46,7 @@ const LoginScreen = () => {
       const userFromResponse = response.data?.data.user;
 
       if (token && userFromResponse) {
-        await login(token);
-        setUser(userFromResponse);
+        await login(token, userFromResponse);
         console.log("Login successful:", response.data);
       } else {
         setErrorMessage(
