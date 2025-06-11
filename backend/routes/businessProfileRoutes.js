@@ -4,6 +4,7 @@ import {
   getLoggedInUserBusinessProfile,
   getBusinessProfileById,
   updateBusinessProfile,
+  getBusinessProfile,
 } from "./../controllers/businessProfileController.js";
 import {
   addReviewLink,
@@ -17,6 +18,8 @@ router
   .route("/")
   .post(protect, createBusinessProfile)
   .get(protect, getLoggedInUserBusinessProfile);
+
+router.route("/me").get(protect, getBusinessProfile);
 
 router
   .route("/:id")
